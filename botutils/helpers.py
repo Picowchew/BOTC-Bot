@@ -67,16 +67,22 @@ def update_state_machine():
 
 def find_role_in_all(role_name):
     """
-    Find a role name amongst all the loaded game packs. 
+    Find a role name amongst all the loaded game packs.
     Return the role class if it is found, else return None
 
     The game_packs variable is coded in the following way:
 
-    {'botc': {'game_obj': <botc.Game.Game object at 0x1187bffd0>, 'gamemodes': {'trouble-brewing': 
-    [Baron Obj, Butler Obj, Chef Obj, Drunk Obj, Empath Obj, Fortune Teller Obj, Imp Obj, 
-    Investigator Obj, Librarian Obj, Mayor Obj, Monk Obj, Poisoner Obj, Ravenkeeper Obj, 
-    Recluse Obj, Saint Obj, Scarlet Woman Obj, Slayer Obj, Soldier Obj, Undertaker Obj, 
-    Virgin Obj, Washerwoman Obj]}}}
+    {'botc': {'game_obj': Blood on the Clocktower, 'formatter': <botc.setups.BOTCFormatter object at 0x1187bffd0>,
+    'gamemodes': {'trouble-brewing': [Baron Obj, Butler Obj, Chef Obj, Drunk Obj, Empath Obj, Fortune Teller Obj,
+    Imp Obj, Investigator Obj, Librarian Obj, Mayor Obj, Monk Obj, Poisoner Obj, Ravenkeeper Obj, Recluse Obj,
+    Saint Obj, Scarlet Woman Obj, Slayer Obj, Soldier Obj, Spy Obj, Undertaker Obj, Virgin Obj, Washerwoman Obj],
+    'bad-moon-rising': [Assassin Obj, Chambermaid Obj, Courtier Obj, Devil's Advocate Obj, Exorcist Obj, Fool Obj,
+    Gambler Obj, Godfather Obj, Goon Obj, Gossip Obj, Grandmother Obj, Innkeeper Obj, Lunatic Obj, Mastermind Obj,
+    Minstrel Obj, Moonchild Obj, Pacifist Obj, Po Obj, Professor Obj, Pukka Obj, Sailor Obj, Shabaloth Obj,
+    Tea Lady Obj, Tinker Obj, Zombuul Obj], 'sects-&-violets': [Artist Obj, Barber Obj, Cerenovus Obj,
+    Clockmaker Obj, Dreamer Obj, Evil Twin Obj, Fang Gu Obj, Flowergirl Obj, Juggler Obj, Klutz Obj,
+    Mathematician Obj, Mutant Obj, No Dashii Obj, Oracle Obj, Philosopher Obj, Pit-Hag Obj, Sage Obj, Savant Obj,
+    Seamstress Obj, Snake Charmer Obj, Sweetheart Obj, Town Crier Obj, Vigormortis Obj, Vortox Obj, Witch Obj]}}}
     """
     match = None
     for game_pack_title in globvars.master_state.game_packs:
