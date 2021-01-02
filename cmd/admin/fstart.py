@@ -5,7 +5,7 @@ import json
 from discord.ext import commands
 from ._admin import Admin
 
-with open('botutils/bot_text.json') as json_file: 
+with open('botutils/bot_text.json') as json_file:
     language = json.load(json_file)
 
 fstart_min = language["errors"]["fstart_min"]
@@ -22,13 +22,12 @@ class Fstart(Admin, name = language["system"]["admin_cog"]):
         help = language["doc"]["fstart"]["help"],
         description = language["doc"]["fstart"]["description"]
     )
-    @commands.check(botutils.check_if_lobby_or_dm_or_admin)
     async def fstart(self, ctx):
         """Force start command"""
 
         import globvars
 
-        game = botutils.GameChooser().get_selected_game()
+        game = botutils.GameChooser().selected_game
 
         if len(globvars.master_state.pregame) < game.MIN_PLAYERS:
             msg = fstart_min.format(
