@@ -24,6 +24,23 @@ class Klutz(Outsider, SectsAndViolets, Character):
         self._lore_string = character_text["lore"]
 
         self._art_link = "https://bloodontheclocktower.com/wiki/images/2/2a/Klutz_Token.png"
+        self._art_link_cropped = "https://imgur.com/Do7c6Lq.png"
         self._wiki_link = "https://bloodontheclocktower.com/wiki/Klutz"
 
         self._role_enum = SnVRole.klutz
+
+    def create_n1_instr_str(self):
+        """Create the instruction field on the opening dm card"""
+
+        # First line is the character instruction string
+        msg = f"{self.emoji} {self.instruction}"
+        addendum = character_text["n1_addendum"]
+
+        # Some characters have a line of addendum
+        if addendum:
+            with open("botutils/bot_text.json") as json_file:
+                bot_text = json.load(json_file)
+                scroll_emoji = bot_text["esthetics"]["scroll"]
+            msg += f"\n{scroll_emoji} {addendum}"
+
+        return msg
