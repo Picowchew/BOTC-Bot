@@ -8,7 +8,7 @@ import json
 import discord
 import datetime
 import configparser
-from botc import ChoppingBlock
+from botc import ChoppingBlock, StatusList
 from discord.ext import tasks
 
 Config = configparser.ConfigParser()
@@ -35,7 +35,7 @@ Config.read("config.INI")
 
 PREFIX = Config["settings"]["PREFIX"]
 
-with open('botc/game_text.json') as json_file: 
+with open('botc/game_text.json') as json_file:
     documentation = json.load(json_file)
     approved_seal = documentation["images"]["approved_seal"]
     denied_seal = documentation["images"]["denied_seal"]
@@ -62,9 +62,10 @@ with open('botc/game_text.json') as json_file:
     day_over_soon = documentation["gameplay"]["day_over_soon"]
     no_execution = documentation["gameplay"]["no_execution"]
     execution = documentation["gameplay"]["execution"]
+    immediately_dies = documentation["gameplay"]["immediately_dies"]
     copyrights_str = documentation["misc"]["copyrights"]
 
-with open('botutils/bot_text.json') as json_file: 
+with open('botutils/bot_text.json') as json_file:
     language = json.load(json_file)
     error_str = language["system"]["error"]
 
@@ -73,17 +74,21 @@ global botc_game_obj
 
 @tasks.loop(count = 1)
 async def nomination_loop(game, nominator, nominated):
-    """One round of nomination. Iterate through all players with available 
+    """One round of nomination. Iterate through all players with available
     votes and register votes using reactions.
 
-    A vote results in an execution if the number of votes equals or exceeds 
+    A vote results in an execution if the number of votes equals or exceeds
     half the number of alive players.
     """
+
+    if nominator.has_status_effect(StatusList.witch_curse):
+        await nominator.exec_real_death()
+        await botutils.send_lobby(immediately_dies.format(botutils.BotEmoji.custom_skull, nominator.game_nametag))
 
     intro_msg = nomination_intro.format(
         botutils.BotEmoji.gallows,
         botutils.make_alive_ping() + " " + botutils.make_dead_ping(),
-        nominator.user.mention, 
+        nominator.user.mention,
         nominated.user.mention,
         DEBATE_TIME
     )
@@ -112,7 +117,7 @@ async def nomination_loop(game, nominator, nominated):
 
         idx = i % len(game.sitting_order)
         player = game.sitting_order[idx]
- 
+
         if player.has_vote():
 
             link = ghost_vote_url if player.is_apparently_dead() else blank_token_url
@@ -149,7 +154,7 @@ async def nomination_loop(game, nominator, nominated):
                     votes = nb_required_votes,
                     emoji = botutils.BotEmoji.approved
                 )
-            
+
             msg += "\n"
 
             # Current vote stats
@@ -178,11 +183,11 @@ async def nomination_loop(game, nominator, nominated):
                 return user.id == player.user.id and \
                     str(reaction.emoji) in (botutils.BotEmoji.approved, botutils.BotEmoji.denied) and \
                     reaction.message.id == message.id
-            
+
             try:
                 reaction, user = await globvars.client.wait_for('reaction_add', timeout=VOTE_TIMEOUT, check=check)
                 assert user.id == player.user.id, f"{user} reacted instead"
-            
+
             # The player did not vote. It counts as a "No" (hand down)
             except asyncio.TimeoutError:
                 author_str = f"{player.user.name}#{player.user.discriminator}, "
@@ -222,9 +227,11 @@ async def nomination_loop(game, nominator, nominated):
                     new_embed.set_author(name = author_str, icon_url=player.user.avatar_url)
                     if player.is_apparently_alive():
                         new_embed.set_thumbnail(url = alive_lynch)
+                        if player in globvars.master_state.game.alive_demon_and_voted_while_alive:
+                            globvars.master_state.game.alive_demon_and_voted_while_alive[player] = True
                     else:
                         new_embed.set_thumbnail(url = dead_lynch)
-                
+
                 # Hand down (no lynch)
                 elif str(reaction.emoji) == botutils.BotEmoji.denied:
                     author_str = f"{player.user.name}#{player.user.discriminator}, "
@@ -241,10 +248,10 @@ async def nomination_loop(game, nominator, nominated):
                         new_embed.set_thumbnail(url = alive_no_lynch)
                     else:
                         new_embed.set_thumbnail(url = dead_no_lynch)
-                
+
                 await message.edit(embed = new_embed, delete_after = DELETE_VOTE_AFTER)
                 await message.clear_reactions()
-    
+
     # ----- The summmary embed message -----
 
     msg = nomination_short.format(
@@ -285,7 +292,7 @@ async def nomination_loop(game, nominator, nominated):
     msg += "\n"
     msg += "\n"
 
-    # The vote count has reached execution threshold. 
+    # The vote count has reached execution threshold.
     if nb_current_votes >= nb_required_votes:
         # Someone is on the chopping block
         if game.chopping_block:
@@ -303,7 +310,7 @@ async def nomination_loop(game, nominator, nominated):
             else:
                 msg += verdict_safe.format(nominated.game_nametag)
                 thumbnail_url = denied_seal
-        # No one is on the chopping block currently. 
+        # No one is on the chopping block currently.
         # The player is now on the chopping block awaiting death.
         else:
             globvars.master_state.game.chopping_block = ChoppingBlock(nominated, nb_current_votes)
@@ -314,7 +321,7 @@ async def nomination_loop(game, nominator, nominated):
     else:
         msg += verdict_safe.format(nominated.game_nametag)
         thumbnail_url = denied_seal
-        
+
     summary_embed = discord.Embed(description = msg)
     summary_embed.set_author(
         name = vote_summary
@@ -327,7 +334,7 @@ async def nomination_loop(game, nominator, nominated):
 
 async def night_loop(game):
     """Night loop
-    ----- Night : 
+    ----- Night :
         30 seconds min
         90 seconds max
         At intervals of 15 seconds when all actions are submitted (45, 60, 75)
@@ -336,7 +343,7 @@ async def night_loop(game):
     await game.make_nightfall()
     # Start night
     if not game._chrono.is_night_1():
-        # Night 1 is alraedy handled by the opening dm
+        # Night 1 is already handled by the opening dm
         await before_night(game)
     # Base night length
     await asyncio.sleep(BASE_NIGHT)
@@ -355,7 +362,7 @@ async def night_loop(game):
 
 async def dawn_loop(game):
     """Dawn loop
-    ----- Dawn : 
+    ----- Dawn :
         15 seconds min
         30 seconds max
         At intervals of 15 seconds (15, 30)
@@ -427,7 +434,7 @@ async def day_loop(game):
     for timer in timers:
 
         globvars.master_state.game.nomination_iteration_date = (
-            datetime.datetime.now(), 
+            datetime.datetime.now(),
             timer
         )
 
@@ -438,7 +445,7 @@ async def day_loop(game):
         count = 0
 
         while not nomination_loop.is_running():
-            
+
             # The master switch has been turned on. Proceed to the next phase.
             if botc.switches.master_proceed_to_night:
                 return
@@ -459,7 +466,7 @@ async def day_loop(game):
                     if player_about_to_die:
                         await player_about_to_die.role.true_self.on_being_executed(player_about_to_die)
                         msg = botutils.BotEmoji.guillotine + " " + execution.format(
-                            game.chopping_block.player_about_to_die.game_nametag, 
+                            game.chopping_block.player_about_to_die.game_nametag,
                             game.chopping_block.nb_votes
                         )
                     else:
@@ -481,8 +488,10 @@ async def day_loop(game):
 
 async def before_night(game):
     """Run before a regular (not the first) night starts. Distribute regular night dm."""
+    from botc.gamemodes.sectsandviolets._utils import SnVRole
     for player in game.sitting_order:
-        await player.role.ego_self.send_regular_night_start_dm(player.user)
+        if not (player.role.true_self.name == SnVRole.witch.value and game.nb_alive_players == 3):
+            await player.role.ego_self.send_regular_night_start_dm(player.user)
 
 
 async def after_night_1(game):
@@ -498,7 +507,7 @@ async def after_night(game):
     await game.compute_night_ability_interactions()
     for player in game.sitting_order:
         await player.role.ego_self.send_regular_night_end_dm(player.user)
-    
+
 
 async def after_dawn(game):
     """Run after the dawn phase. Handle the dawn phase end."""
@@ -518,17 +527,17 @@ async def master_game_loop(game_obj):
     Day end
     etc.
 
-    ----- Night : 
+    ----- Night :
         30 seconds min
         90 seconds max
         At intervals of 15 seconds when all actions are submitted (45, 60, 75)
 
-    ----- Dawn : 
+    ----- Dawn :
         15 seconds min
         30 seconds max
         At intervals of 15 seconds (15, 30)
 
-    ----- Day: 
+    ----- Day:
         2 * sqrt(total_players) minutes until nomination
         Time until each nomination: 30, 20, 15, and 10 for all subsequent nominations.
 
@@ -560,7 +569,7 @@ async def master_game_loop(game_obj):
         for player in game_obj.sitting_order:
             for status in player.status_effects:
                 status.wear_off()
-    
+
 
 @master_game_loop.after_loop
 async def after_master_game_loop():

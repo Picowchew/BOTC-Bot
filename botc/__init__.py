@@ -10,9 +10,10 @@ from .Character import Character
 from .checks import check_if_is_player, can_use_serve, check_if_can_serve, can_use_poison, \
     check_if_can_poison, can_use_learn, check_if_can_learn, can_use_read, check_if_can_read, \
     can_use_kill, check_if_can_kill, can_use_slay, check_if_can_slay, can_use_protect, \
-    check_if_can_protect, check_if_is_night, check_if_is_dawn, check_if_is_day, \
-    check_if_dm, check_if_lobby, check_if_player_apparently_alive, \
-    check_if_player_apparently_dead, check_if_player_really_alive, check_if_player_really_dead
+    check_if_can_protect, can_use_curse, check_if_can_curse, can_use_dream, check_if_can_dream, \
+    check_if_is_night, check_if_is_dawn, check_if_is_day, check_if_dm, check_if_lobby, \
+    check_if_player_apparently_alive, check_if_player_apparently_dead, check_if_player_really_alive, \
+    check_if_player_really_dead
 from .ChoppingBlock import ChoppingBlock
 from .chrono import GameChrono
 from .Demon import Demon
@@ -28,7 +29,7 @@ from .RecurringAction import RecurringAction, NonRecurringAction
 from .RoleGuide import RoleGuide
 from .Phase import Phase
 from .status import StatusList, Storyteller, SafetyFromDemon, Drunkenness, Poison, RedHerring, \
-    ButlerService, RavenkeeperActivated
+    ButlerService, RavenkeeperActivated, WitchCurse
 from .Team import Team
 from .Townsfolk import Townsfolk
 from .Townsquare import Townsquare
