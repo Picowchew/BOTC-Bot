@@ -31,7 +31,7 @@ class Fjoin(Admin, name = language["system"]["admin_cog"]):
 
         import globvars
 
-        game = botutils.GameChooser().get_selected_game()
+        game = botutils.GameChooser().selected_game
 
         # The player is a bot
         if member.bot:
