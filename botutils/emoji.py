@@ -57,6 +57,7 @@ class BotEmoji:
     moon = emojis["moon"]
     sunrise = emojis["sunrise"]
     mention = emojis["mention"]
+    custom_skull = emojis["custom_skull"]
 
     # Unicode emojis
     skull = emojis["skull"]
