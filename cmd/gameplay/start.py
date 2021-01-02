@@ -17,7 +17,7 @@ start_str = language["cmd"]["start"]
 
 class Start(Gameplay, name = language["system"]["gameplay_cog"]):
     """Start command cog"""
-    
+
     @commands.command(
         pass_context = True,
         name = "start",
@@ -36,7 +36,7 @@ class Start(Gameplay, name = language["system"]["gameplay_cog"]):
         if ctx.author.id in globvars.start_votes:
             return
 
-        game = botutils.GameChooser().get_selected_game()
+        game = botutils.GameChooser().selected_game
 
         if len(globvars.master_state.pregame) < game.MIN_PLAYERS:
             msg = fstart_min.format(
@@ -57,7 +57,7 @@ class Start(Gameplay, name = language["system"]["gameplay_cog"]):
             )
             await ctx.send(msg)
             return
-        
+
         # The player has not voted to start yet
         else:
 
@@ -68,27 +68,26 @@ class Start(Gameplay, name = language["system"]["gameplay_cog"]):
                 if start_votes_timer.is_running():
                     start_votes_timer.cancel()
                 start_votes_timer.start()
-            
+
             # Calculate the number of votes needed
             votes_needed = max(len(globvars.master_state.pregame) - 3, 3)
 
             # Reached the number of votes needed. Start the game.
             if len(globvars.start_votes) == votes_needed:
-                game = botutils.GameChooser().get_selected_game()
                 globvars.master_state.game = game
                 await globvars.master_state.game.start_game()
                 botutils.update_state_machine()
 
                 # Clear the start votes
                 globvars.start_votes.clear()
-                
+
                 return
-            
+
             votes_left = votes_needed - len(globvars.start_votes)
 
             # Do not have a negative number of votes required to start
             if votes_left < 0:
-                return 
+                return
 
             msg = start_str.format(
                 ctx.author.name,
@@ -96,7 +95,7 @@ class Start(Gameplay, name = language["system"]["gameplay_cog"]):
                 "vote" if votes_left == 1 else "votes"
             )
             await ctx.send(msg)
-    
+
     @start.error
     async def start_error(self, ctx, error):
         """Error handling of the start command"""
@@ -104,7 +103,7 @@ class Start(Gameplay, name = language["system"]["gameplay_cog"]):
         # Case: check failure
         if isinstance(error, commands.CheckFailure):
             return
-        
+
         # For other cases we will want to see the error logged
         else:
             try:
