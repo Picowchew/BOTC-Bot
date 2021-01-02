@@ -56,8 +56,9 @@ class fancy:
                     'W' : '\uD835\uDD82'.encode('utf-16', 'surrogatepass').decode('utf-16'),
                     'X' : '\uD835\uDD83'.encode('utf-16', 'surrogatepass').decode('utf-16'),
                     'Y' : '\uD835\uDD84'.encode('utf-16', 'surrogatepass').decode('utf-16'),
-                    'Z' : '\uD835\uDD85'.encode('utf-16', 'surrogatepass').decode('utf-16')
-                    }
+                    'Z' : '\uD835\uDD85'.encode('utf-16', 'surrogatepass').decode('utf-16'),
+                    '&' : '\uD83D\uDE75'.encode('utf-16', 'surrogatepass').decode('utf-16') # Same as light
+        }
         pattern = re.compile(r'(' + '|'.join(fancy_bold.keys()) + r')')
         result = pattern.sub(lambda x: fancy_bold[x.group()], text)
         return(result)
@@ -117,6 +118,7 @@ class fancy:
                     'X' : '\uD835\uDD1B'.encode('utf-16', 'surrogatepass').decode('utf-16'),
                     'Y' : '\uD835\uDD1C'.encode('utf-16', 'surrogatepass').decode('utf-16'),
                     'Z' : '\u2128'.encode('utf-16', 'surrogatepass').decode('utf-16'),
+                    '&' : '\uD83D\uDE75'.encode('utf-16', 'surrogatepass').decode('utf-16') # Same as bold
         }
         pattern = re.compile(r'(' + '|'.join(fancy_light.keys()) + r')')
         result = pattern.sub(lambda x: fancy_light[x.group()], text)
