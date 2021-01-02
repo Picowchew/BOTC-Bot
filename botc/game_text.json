@@ -4,14 +4,14 @@
         "copyrights" : "Copyrights of BoTC belong to the Pandemonium Institute.",
         "res_title" : "Blood on the Clocktower (BoTC) - Resources",
         "res_desc" : "In the quaint village of Ravenswood Bluff, ‌a demon walks amongst you...",
-        "thumnail" : "https://bloodontheclocktower.com/img/website/logo.png?rel=1591572107883",
+        "thumbnail" : "https://bloodontheclocktower.com/img/website/logo.png?rel=1591572107883",
         "wiki" : "https://bloodontheclocktower.com/wiki/Main_Page",
         "rulebooks" : "https://rebrand.ly/BOTCrulebook\nhttps://rebrand.ly/TBalmanac\nhttps://rebrand.ly/BMRalmanac\nhttps://rebrand.ly/SValmanac\nhttps://rebrand.ly/TravellersFabledAlmanac",
         "scripts" : "https://rebrand.ly/TBscript\nhttps://rebrand.ly/SVscript\nhttps://rebrand.ly/BMRscript",
         "social_medias" : "<:facebook:724126325501329509> Facebook: https://www.facebook.com/BloodOnTheClocktower/\n<:youtube:724126365443555348> YouTube: https://www.youtube.com/channel/UCVmPTpM355K0dXW4MbF_R6Q\n<:twitter:724126365443424277> Twitter: https://twitter.com/bloodclocktower?lang=en\n<:reddit:724126365481435187> Reddit: https://www.reddit.com/r/BloodOnTheClocktower/",
         "abilities_cog" : "༺ 𝕭𝖑𝖔𝖔𝖉 𝖔𝖓 𝖙𝖍𝖊 𝕮𝖑𝖔𝖈𝖐𝖙𝖔𝖜𝖊𝖗 ༻ 𝔄𝔟𝔦𝔩𝔦𝔱𝔦𝔢𝔰",
         "townhall_cog" : "༺ 𝕭𝖑𝖔𝖔𝖉 𝖔𝖓 𝖙𝖍𝖊 𝕮𝖑𝖔𝖈𝖐𝖙𝖔𝖜𝖊𝖗 ༻ 𝔗𝔬𝔴𝔫𝔥𝔞𝔩𝔩",
-        "debug_cog" :  "༺ 𝕭𝖑𝖔𝖔𝖉 𝖔𝖓 𝖙𝖍𝖊 𝕮𝖑𝖔𝖈𝖐𝖙𝖔𝖜𝖊𝖗 ༻ 𝔇𝔢𝔟𝔲𝔤"
+        "debug_cog" : "༺ 𝕭𝖑𝖔𝖔𝖉 𝖔𝖓 𝖙𝖍𝖊 𝕮𝖑𝖔𝖈𝖐𝖙𝖔𝖜𝖊𝖗 ༻ 𝔇𝔢𝔟𝔲𝔤"
 
     },
 
@@ -21,6 +21,8 @@
         "ghost_vote" : "https://imgur.com/h1jC9oz.png",
         "good" : "https://imgur.com/vXzuSh9.png",
         "evil" : "https://imgur.com/iTaPY4K.png",
+        "yes" : "https://imgur.com/FLGgO00.png",
+        "no" : "https://imgur.com/QbP53Pj.png",
         "nightfall" : "https://imgur.com/G2z4f47.png",
         "dawn" : "https://imgur.com/CDux0p3.jpeg",
         "daybreak" : "https://imgur.com/NhnhbFi.jpg",
@@ -31,8 +33,9 @@
         "approved_seal" : "https://imgur.com/aNzpAin.png",
         "denied_seal" : "https://imgur.com/djYpGOY.png",
         "dove" : "https://imgur.com/SSyMLfJ.png",
-        "demon" : "https://imgur.com/zrVfclB.png"
-        
+        "demon" : "https://imgur.com/zrVfclB.png",
+        "dream" : "https://imgur.com/5kQjlEQ.png"
+
     },
 
     "numbers" : {
@@ -107,7 +110,7 @@
             "https://imgur.com/SrKCjlb.png",
             "https://imgur.com/GF13uRn.png"
         ],
-        
+
         "9" : [
             "https://imgur.com/CXXrYHn.png",
             "https://imgur.com/llzF1vU.png",
@@ -127,7 +130,7 @@
                 "According to most studies, people's number one fear is public speaking. Number two is death. Death is number two! Does that sound right? This means to the average person, if you go to a funeral, you're better off in the casket than doing the eulogy. And the casket was where {slayer} decided to send {slain}.\nPlayer {slain} is now **dead**.",
                 "{slayer} suddenly pulled out their gun, and to everyone's great surprise, aimed carelessly at the roof and fired. The bullet ricocheted around the room before finally hitting {slain}. Luckily, they were the demon all along!\nPlayer {slain} is now **dead**.",
                 "According to all known laws of aviation, a bee should never be able to fly. The same priniciples applied to {slain}, who was teleported by {slayer} around 10000 meters above the ground. They didn't stick the landing. After they fell, the village looked at the crater, finding a very dead Demon on the ground.\nPlayer {slain} is now **dead**.",
-                "{slayer} lit the fuse of the 10-second dynamite that had been secretely hidden under {slain}'s bed and quickly sprinted away. 10... 9... 8... 7... 6... 5... 4... 3... 2... 1... BOOM! The town, now awoken by the explosion, found out that {slain}, now known to be a Demon, had been blown to pieces.\nPlayer {slain} is now **dead**."
+                "{slayer} lit the fuse of the 10-second dynamite that had been secretly hidden under {slain}'s bed and quickly sprinted away. 10... 9... 8... 7... 6... 5... 4... 3... 2... 1... BOOM! The town, now awoken by the explosion, found out that {slain}, now known to be a Demon, had been blown to pieces.\nPlayer {slain} is now **dead**."
             ],
 
             "weights" : [
@@ -145,7 +148,7 @@
                 "{slayer} launched themself towards {slain}, but tripped instead. As they got up awkwardly, they mumbled, 'I didn't trip. The floor gave me a dirty look, so I attacked it instead.'\nPlayer {slain} is still **alive**.",
                 "While counting the 10 duel commandments, {slayer} suddenly recalled their affinity for prime numbers. Profiting from this brief moment of confusion, {slain} quickly backed away and disappeared from view into the forest. Only hours later did the townsfolks finally help {slayer} snap out of his prime number reciting trance.\nPlayer {slain} is still **alive**.",
                 "{slayer} pulled out a gun, and shot at {slain}. But some dust got into {slayer}'s eye, and they missed.\nPlayer {slain} is still **alive**.",
-                "{slayer} lit the fuse 10-second dynamite that had been secretely hidden under {slain}'s bed and quickly sprinted away. 10... 9... 8... 7... 6... 5... 4... 3... 2... 1... When no explosion was heard, {slayer} headed back to check, and found that the flame had gone out.\nPlayer {slain} is still **alive**."
+                "{slayer} lit the fuse 10-second dynamite that had been secretly hidden under {slain}'s bed and quickly sprinted away. 10... 9... 8... 7... 6... 5... 4... 3... 2... 1... When no explosion was heard, {slayer} headed back to check, and found that the flame had gone out.\nPlayer {slain} is still **alive**."
             ],
 
             "weights" : [
@@ -164,7 +167,7 @@
                     "*As the knocker-up made their rounds in the morning, they discovered that one of the cottages was empty. Further inspection revealed a trail of blood and claw marks within the small house. A carcass, swarming with flies, was discovered a few hours later by the river.*\n\n {} {} *has died during the night.*",
                     "*As the town woke, people started noticing that one of their number had not awakened. Upon further investigation, the village found a dead body, covered in scratches and wounds.*\n\n{} {} *has died during the night.*"
                 ],
-    
+
                 "weights" : [
                     0.50,
                     0.50
@@ -177,7 +180,7 @@
                 "outputs" : [
                     "*As the sun rises and the bell rings the end of the night, it seems that after the daily count, multiple player are missing.* \n\n {} {} * have died during the night*."
                 ],
-    
+
                 "weights" : [
                     1.0
                 ]
@@ -190,7 +193,7 @@
                     "The sound of a lone wolf howl echoed through the valley, but no bodies were recovered nor were any people reported missing.",
                     "The sun rose. The ineluctable church bell rang and as the town awoke; a stray cat ran through the streets, seeking a place to settle for the day. The night had been quiet and peaceful, and thankfully, no dead body was found."
                 ],
-    
+
                 "weights" : [
                     0.5,
                     0.5
@@ -209,7 +212,7 @@
         },
 
         "storyteller_death" : "*During a hellish thunderstorm, on the stroke of midnight, there echoes a bone-chilling scream. The townsfolk found the town storyteller murdered, their body impaled on the hands of the clocktower. It is your duty to avenge the Storyteller's death by killing the Demon!*"
-        
+
     },
 
     "gameplay" : {
@@ -231,11 +234,18 @@
         "ravenkeeper_reply" : "You learn `{}`.",
         "fortune_teller_nightly" : "Tonight, you learn a `{}`.",
         "investigator_init" : "You learn that one of the following two players is the ``{}``: ",
-        "librarian_init" : "You learn that one of the following two players is the ``{}``: ", 
+        "librarian_init" : "You learn that one of the following two players is the ``{}``: ",
         "librarian_init_zero" : "You learn that there is no Outsider in play.",
+        "spy_nightly" : "The Grimoire is shown below.",
         "washerwoman_init" : "You learn that one of the following two players is the ``{}``: ",
         "tb_lore" : "*Clouds roll in over Ravenswood Bluff, engulfing this sleepy town and its superstitious inhabitants in foreboding shadow. Anxious mothers call their children home from play, as thunder begins to clap on the horizon. Those who can read the signs know there is...* ***Trouble Brewing***.",
-        "spy_nightly" : "The Grimoire is shown below.",
+        "bmr_lore" : "*The sun is swallowed by a jagged horizon as another winter's day surrenders to the night. Ravenous wolves howl from the bowels of a rocky crevasse beyond the town borders, sending birds scattering from their cozy rooks. Tonight, even the livestock know there is a...* ***Bad Moon Rising***.",
+        "clockmaker_init" : "You learn a `{}`.",
+        "dreamer_nightly" : "Tonight, you learn that the player is either the `{}` or the `{}`.",
+        "flowergirl_nightly" : "Tonight, you learn a `{}`.",
+        "oracle_nightly" : "Tonight, you learn a `{}`.",
+        "town_crier_nightly" : "Tonight, you learn a `{}`.",
+        "sv_lore" : "*Vibrant spring gives way to a warm and inviting summer. As the townsfolk bask in frivolity and mischief, indulging themselves in fine entertainment and even finer wine, dark and clandestine forces are assembling. The time is ripe for...* ***Sects & Violets***.",
         "action_assign" : "Since you did not pick a target for your mandatory action, it has been randomized to {}.",
         "yes" : "yes",
         "no" : "no",
@@ -281,7 +291,8 @@
         "time_day_base" : "It is currently **daytime**. The daytime discussion phase lasts `{}`. There {} **{}** left until nominations are open.",
         "time_voting" : "It is currently **daytime**. This is the nominations phase. Votes are being counted right now.",
         "time_debate" : "It is currently **daytime**. You have `{}` for discussion. The voting will start in **{}**.",
-        "time_nomination" : "It is currently **daytime**. You have `{}` to nominate someone. The game will progress to the night phase in **{}**."
+        "time_nomination" : "It is currently **daytime**. You have `{}` to nominate someone. The game will progress to the night phase in **{}**.",
+        "immediately_dies" : "{} {} immediately dies."
 
     },
 
@@ -308,6 +319,7 @@
         "requires_one_target_str" : "{} {} You must pick exactly one target for your ability. Note that the separator `and` is a special keyword and allows you to input multiple targets.",
         "requires_two_targets_str" : "{} {} You must pick exactly two targets for your ability. Note that the separator `and` is a special keyword and allows you to input multiple targets.",
         "requires_different_targets_str" : "{} {} You must pick different targets for your ability.",
+        "requires_more_than_three_alive_players_str" : "{} {} There must be more than three alive players for your ability to be used.",
         "changes_not_allowed" : "{} {} You may not change your action once it is submitted.",
         "unique_ability_used" : "{} {} Your ability is single-use, and you have used it up already.",
         "no_game_running" : "{} {} No game is currently running.",
@@ -397,6 +409,18 @@
             "brief" : "pick a 'protect' target",
             "help" : "The bot recognizes usernames, nicknames, user ID's and mentions, typed in full or partially. If your role allows for multiple targets, use 'and' to separate each of them. Please use the command in DM.",
             "description" : "[PROTECT] command - BOTC"
+        },
+
+        "curse" : {
+            "brief" : "pick a 'curse' target",
+            "help" : "The bot recognizes usernames, nicknames, user ID's and mentions, typed in full or partially. If your role allows for multiple targets, use 'and' to separate each of them. Please use the command in DM.",
+            "description" : "[CURSE] command - BOTC"
+        },
+
+        "dream" : {
+            "brief" : "pick a 'dream' target",
+            "help" : "The bot recognizes usernames, nicknames, user ID's and mentions, typed in full or partially. If your role allows for multiple targets, use 'and' to separate each of them. Please use the command in DM.",
+            "description" : "[DREAM] command - BOTC"
         },
 
         "nominate" : {

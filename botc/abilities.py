@@ -12,6 +12,9 @@ class ActionTypes(enum.Enum):
     - kill: imp
     - slay: slayer
     - protect: monk
+    - assassinate: assassin
+    - curse: witch
+    - dream: dreamer
     """
 
     serve = "serve"
@@ -22,6 +25,8 @@ class ActionTypes(enum.Enum):
     slay = "slay"
     protect = "protect"
     assassinate = "assassinate"
+    curse = "curse"
+    dream = "dream"
 
 
 class Action:
@@ -38,14 +43,13 @@ class Action:
         self.target_player = target_player
         self.action_type = action_type
         self.birth_phase_id = phase_id
-    
-    def __repr__(self):
 
+    def __repr__(self):
         return f"Action {self.action_type}"
 
 
 class _GrowingList(list):
-    """A list that grows automatically when an index that does not exist yet is referenced, 
+    """A list that grows automatically when an index that does not exist yet is referenced,
     filling the rest of the values with filler items
     """
 
@@ -56,7 +60,7 @@ class _GrowingList(list):
         if index >= len(self):
             self.extend([None]*(index + 1 - len(self)))
         list.__setitem__(self, index, value)
-    
+
     def __getitem__(self, index):
         """Get item
         If list is not long enough, don't grow and return None.
@@ -70,18 +74,18 @@ class ActionGrid:
     """A calendar like grid to keep track of actions (abilities) used by players
     [
         night1, dawn1, day1,
-        night2, dawn2, day3,
+        night2, dawn2, day2,
         etc.
     ]
     """
 
     def __init__(self):
         self.grid = _GrowingList()
-    
+
     def register_an_action(self, action, phase_id):
         """Save an action within the grid based on a phase ID"""
         self.grid[phase_id] = action
-    
+
     def retrieve_an_action(self, phase_id):
         """Retrieve an action within the grid based on a phase ID"""
         return self.grid[phase_id]
