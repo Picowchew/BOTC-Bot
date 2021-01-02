@@ -8,7 +8,7 @@ from botc import BOTCUtils
 
 butterfly = botutils.BotEmoji.butterfly
 
-with open('botc/game_text.json') as json_file: 
+with open('botc/game_text.json') as json_file:
     strings = json.load(json_file)
     copyrights_str = strings["misc"]["copyrights"]
 
@@ -16,7 +16,7 @@ with open('botc/game_text.json') as json_file:
 # ------- For Night -------
 
 class RecurringAction:
-    """A class to faciliate the characters who have recurring night actions"""
+    """A class to facilitate the characters who have recurring night actions"""
 
     @property
     def name(self):
@@ -56,7 +56,7 @@ class RecurringAction:
             msg2 = self.action
             msg2 += globvars.master_state.game.create_sitting_order_stats_string()
             embed.add_field(name = butterfly + " **「 Your Action 」**", value = msg2, inline = False)
-            
+
             try:
                 await recipient.send(embed = embed)
             except discord.Forbidden:
@@ -64,7 +64,7 @@ class RecurringAction:
 
 
 class NonRecurringAction:
-    """A class to faciliate the characters who don't have recurring night actions"""
+    """A class to facilitate the characters who don't have recurring night actions"""
 
     async def send_regular_night_start_dm(self, recipient):
         """Send the query for night action for each regular night (not the first one)"""

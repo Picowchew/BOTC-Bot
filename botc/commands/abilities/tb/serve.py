@@ -9,12 +9,12 @@ from botc import check_if_is_player, check_if_is_night, check_if_dm, RoleCannotU
     check_if_player_really_alive, check_if_can_serve, PlayerParser, AbilityForbidden, \
     NotAPlayer, BOTCUtils, AliveOnlyCommand, NotNight, NotDMChannel
 
-with open('botutils/bot_text.json') as json_file: 
+with open('botutils/bot_text.json') as json_file:
     language = json.load(json_file)
 
 error_str = language["system"]["error"]
 
-with open('botc/game_text.json') as json_file: 
+with open('botc/game_text.json') as json_file:
     documentation = json.load(json_file)
 
 
@@ -22,19 +22,19 @@ class Serve(commands.Cog, name = documentation["misc"]["abilities_cog"]):
     """BoTC in-game commands cog
     Serve command - used by butler
     """
-    
+
     def __init__(self, client):
         self.client = client
-    
+
     def cog_check(self, ctx):
         """Check performed on all commands of this cog.
         Must be a non-fleaved player to use these commands.
         """
         return check_if_is_player(ctx)  # Registered non-quit player -> NotAPlayer
-    
+
     # ---------- SERVE COMMAND (Butler) ----------------------------------------
     @commands.command(
-        pass_context = True, 
+        pass_context = True,
         name = "serve",
         hidden = False,
         brief = documentation["doc"]["serve"]["brief"],
@@ -46,7 +46,7 @@ class Serve(commands.Cog, name = documentation["misc"]["abilities_cog"]):
     @commands.check(check_if_player_really_alive)  # Player alive -> AliveOnlyCommand
     @commands.check(check_if_can_serve)  # Correct character -> RoleCannotUseCommand
     async def serve(self, ctx, *, master: PlayerParser()):
-        """Serve command: 
+        """Serve command:
         usage: serve <player> and <player> and...
         characters: butler
         """
@@ -97,8 +97,8 @@ class Serve(commands.Cog, name = documentation["misc"]["abilities_cog"]):
                 raise error
             except Exception:
                 await ctx.send(error_str)
-                await botutils.log(botutils.Level.error, traceback.format_exc()) 
+                await botutils.log(botutils.Level.error, traceback.format_exc())
 
 def setup(client):
     client.add_cog(Serve(client))
-    
+

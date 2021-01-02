@@ -1,22 +1,22 @@
 """Contains the Scarlet Woman Character class"""
 
-import json 
+import json
 import discord
 from botc import Minion, Character, NonRecurringAction
 from ._utils import TroubleBrewing, TBRole
 import globvars
 
-with open('botc/gamemodes/troublebrewing/character_text.json') as json_file: 
+with open('botc/gamemodes/troublebrewing/character_text.json') as json_file:
     character_text = json.load(json_file)[TBRole.scarletwoman.value.lower()]
 
 class ScarletWoman(Minion, TroubleBrewing, Character, NonRecurringAction):
     """Scarlet Woman: If there are 5 or more players alive & the Demon dies, you become the Demon.
 
-    ===== SCARLET WASHERWOMAN ===== 
+    ===== SCARLET WOMAN =====
 
-    true_self = washerwoman
-    ego_self = washerwoman
-    social_self = washerwoman
+    true_self = scarlet woman
+    ego_self = scarlet woman
+    social_self = scarlet woman
 
     commands:
     - None
@@ -27,16 +27,16 @@ class ScarletWoman(Minion, TroubleBrewing, Character, NonRecurringAction):
     ----- First night
     START:
     override first night instruction? -> YES  # default is to send instruction string only
-                                      => Send demon and minion identities to this minion 
+                                      => Send demon and minion identities to this minion
                                          if 7 players or more
 
     ----- Regular night
     START:
-    override regular night instruction -> NO  # default is to send nothing
+    override regular night instruction? -> NO  # default is to send nothing
     """
 
     def __init__(self):
-        
+
         Character.__init__(self)
         TroubleBrewing.__init__(self)
         Minion.__init__(self)
@@ -47,7 +47,7 @@ class ScarletWoman(Minion, TroubleBrewing, Character, NonRecurringAction):
         self._lore_string = character_text["lore"]
         self._brief_string = character_text["brief"]
         self._action = character_text["action"]
-        
+
         self._art_link = "https://bloodontheclocktower.com/wiki/images/7/7c/Scarlet_Woman_Token.png"
         self._art_link_cropped = "https://imgur.com/qgvpSOJ.png"
         self._wiki_link = "https://bloodontheclocktower.com/wiki/Scarlet_Woman"
@@ -61,18 +61,18 @@ class ScarletWoman(Minion, TroubleBrewing, Character, NonRecurringAction):
         # First line is the character instruction string
         msg = f"{self.emoji} {self.instruction}"
         addendum = character_text["n1_addendum"]
-        
+
         # Some characters have a line of addendum
         if addendum:
             with open("botutils/bot_text.json") as json_file:
                 bot_text = json.load(json_file)
                 scroll_emoji = bot_text["esthetics"]["scroll"]
             msg += f"\n{scroll_emoji} {addendum}"
-            
+
         return msg
-    
+
     async def send_first_night_instruction(self, recipient):
-        """Send demon and minion list if there are 7 or more players. 
+        """Send demon and minion list if there are 7 or more players.
         Otherwise, send the default instruction string.
         """
         # Seven or more players, send the evil list
