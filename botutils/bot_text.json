@@ -4,6 +4,7 @@
         "github" : "The Github page of the bot can be found here: https://github.com/Xinverse/Blood-on-the-Clocktower-Storyteller-Discord-Bot",
         "ping" : "{} Ping! The bot's latency is **{}** seconds.",
         "uptime" : "{} The current uptime is **{}**.",
+        "fgame" : "{} The game has been set to {}.",
         "join" : "**{}** joined the game and raised the number of players to **{}**.",
         "joined" : "{} You are already in the game!",
         "quit" : "**{}** left the game. There are **{}** players remaining.",
@@ -133,6 +134,14 @@
             "weights" : []
         },
 
+        "fgame" : {
+            "brief" : "force a game pack or game mode",
+            "help" : "Force the game to have a certain game pack or game mode.",
+            "description" : "[FGAME] command",
+            "outputs" : [],
+            "weights" : []
+        },
+
         "fstart" : {
             "brief" : "force the game to start",
             "help" : "Force the game to start by bypassing the voting process needed to start a game.",
@@ -258,7 +267,7 @@
                 "outputs" : [],
                 "weights" : []
             },
-    
+
             "add" : {
                 "brief" : "add a user to the ignore list",
                 "help" : "Add a user to the ignore list. An ignored user can no longer invoke commands. Use the ignore feature to prevent abusive behaviour.",
@@ -266,7 +275,7 @@
                 "outputs" : [],
                 "weights" : []
             },
-    
+
             "remove" : {
                 "brief" : "remove a user from the ignore list",
                 "help" : "Remove a user from the ignore list. An ignored user can no longer invoke commands. Use the ignore feature to prevent abusive behaviour.",
@@ -307,13 +316,15 @@
 
         "user_not_found" : "{} :x: Specified user is not found.",
         "missing_user" : "{} :x: Missing argument, please specify a valid user.",
+        "missing_game_pack_or_game_mode" : "{} :x: Missing argument, please specify a valid game pack or game mode.",
         "cmd_cooldown" : "{} :x: This command is ratelimited.",
         "already_in_notify" : "{} {} You are already in the notify list.",
         "already_not_notify" : "{} {} You are already not in the notify list.",
+        "game_pack_or_game_mode_not_found" : "{} :x: Specified game pack or game mode is not found.",
         "fstart_min" : "{} {} The currently selected game is **{}**, with a **minimum** of **{}** players. You may not start the game until the minimum player count is reached.",
         "fstart_max" : "{} {} The currently selected game is **{}**, with a **maximum** of **{}** players. There are too many players in the lobby to run this game.",
         "fjoin_max" : "{} {} The currently selected game is **{}**, with a **maximum** of **{}** players. There are too many players in the lobby.",
-        "cant_fjoin_bot": "{} :x: You can't fjoin a bot."
+        "cant_fjoin_bot" : "{} :x: You can't fjoin a bot."
 
         },
 
@@ -334,8 +345,8 @@
 
     "formats" : {
 
-        "server_header": "Storyteller Bot by Xinverse"
+        "server_header" : "Storyteller Bot by Xinverse"
 
     }
-    
+
 }

@@ -10,12 +10,13 @@ with open('botutils/bot_text.json') as json_file:
 
 user_not_found_str = language["errors"]["user_not_found"]
 missing_user_str = language["errors"]["missing_user"]
+missing_game_pack_or_game_mode_str = language["errors"]["missing_game_pack_or_game_mode"]
 error_str = language["system"]["error"]
 
 
 class Admin(commands.Cog, name = language["system"]["admin_cog"]):
     """Admins only commands cog"""
-    
+
     def __init__(self, client):
         self.client = client
 
@@ -28,17 +29,21 @@ class Admin(commands.Cog, name = language["system"]["admin_cog"]):
         # Case: check failure
         if isinstance(error, commands.CheckFailure):
             return
-        
+
         # Case: bad argument (user not found)
         elif isinstance(error, commands.BadArgument):
             await ctx.send(user_not_found_str.format(ctx.author.mention))
             return
-        
-        # Case: missing required argument (user not specified)
+
+        # Case: missing required argument (<game pack or game mode>/<user> not specified)
         elif isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(missing_user_str.format(ctx.author.mention))
-            return
-        
+            if str(ctx.command) == "fgame":
+                await ctx.send(missing_game_pack_or_game_mode_str.format(ctx.author.mention))
+                return
+            else:
+                await ctx.send(missing_user_str.format(ctx.author.mention))
+                return
+
         # For other cases we will want to see the error logged
         else:
             try:
