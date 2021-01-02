@@ -13,7 +13,7 @@ Config.read("config.INI")
 MAX_MESSAGE_LEN = Config["misc"]["MAX_MESSAGE_LEN"]
 MAX_MESSAGE_LEN = int(MAX_MESSAGE_LEN)
 
-with open('botc/game_text.json') as json_file: 
+with open('botc/game_text.json') as json_file:
     documentation = json.load(json_file)
     x_emoji = documentation["cmd_warnings"]["x_emoji"]
     player_not_found = documentation["cmd_warnings"]["player_not_found"]
@@ -22,6 +22,7 @@ with open('botc/game_text.json') as json_file:
     requires_one_target_str = documentation["cmd_warnings"]["requires_one_target_str"]
     requires_two_targets_str = documentation["cmd_warnings"]["requires_two_targets_str"]
     requires_different_targets_str = documentation["cmd_warnings"]["requires_different_targets_str"]
+    requires_more_than_three_alive_players_str = documentation["cmd_warnings"]["requires_more_than_three_alive_players_str"]
     changes_not_allowed = documentation["cmd_warnings"]["changes_not_allowed"]
     unique_ability_used = documentation["cmd_warnings"]["unique_ability_used"]
     not_under_status = documentation["cmd_warnings"]["not_under_status"]
@@ -37,13 +38,13 @@ class Targets(list):
    def __init__(self, target_list):
       self.target_list = target_list
       self.target_nb = len(self.target_list)
-   
+
    def __len__(self):
       return len(self.target_list)
-   
+
    def __iter__(self):
       yield from self.target_list
-   
+
    def __getitem__(self, index):
       return list.__getitem__(self.target_list, index)
 
@@ -81,7 +82,7 @@ class BOTCUtils:
          if player.role.ego_self.name == character_name_enum.value:
             ret.append(player)
       return ret
-   
+
    @staticmethod
    def get_all_minions():
       """Return the list of players that are minions, using true_self"""
@@ -112,7 +113,7 @@ class BOTCUtils:
    def get_role_list(edition, category):
       """Get the entire list of an edition and a category"""
       return [role_class() for role_class in edition.__subclasses__() if issubclass(role_class, category)]
-   
+
    @staticmethod
    def get_player_from_id(userid):
       """Find a player object from a user ID"""
@@ -122,11 +123,11 @@ class BOTCUtils:
       for player in game.sitting_order:
          if player.user.id == userid:
             return player
-   
+
    @staticmethod
    def get_player_from_string(string):
       """Find a player object from user input string.
-      Code inspired from belungawhale's discord werewolf project. 
+      Code inspired from belungawhale's discord werewolf project.
       """
       import globvars
       game = globvars.master_state.game
@@ -202,7 +203,7 @@ class NotDay(commands.CheckFailure):
 
 
 class NotDawn(commands.CheckFailure):
-   """Raised when a command user used the command during another phase than 
+   """Raised when a command user used the command during another phase than
    dawn when not supposed to
    """
    pass
@@ -273,6 +274,11 @@ class NoRepeatTargets(AbilityForbidden):
    pass
 
 
+class MustBeMoreThanThreeAlivePlayers(AbilityForbidden):
+   """There must be more than three alive players for the ability to be used"""
+   pass
+
+
 class GameLogic:
    """Game logic decorators to be used on ability methods in character classes"""
 
@@ -284,11 +290,11 @@ class GameLogic:
             if target.user.id == player.user.id:
                raise NoSelfTargetting(no_self_targetting_str.format(player.user.mention, x_emoji))
          return func(self, player, targets)
-      return inner 
-   
+      return inner
+
    @staticmethod
    def requires_status(status_effect):
-      """Decorator for abilities that require the player to be under a specific status. 
+      """Decorator for abilities that require the player to be under a specific status.
       Decorator factory that creates decorators based on the status type.
 
       @status_effect: StatusList enum object
@@ -303,7 +309,7 @@ class GameLogic:
 
    @staticmethod
    def unique_ability(ability_type):
-      """Decorator for unique abilities to be used once per game. Decorator factory that 
+      """Decorator for unique abilities to be used once per game. Decorator factory that
       creates decorators based on the ability type.
 
       @ability_type: ActionTypes() enum object
@@ -311,11 +317,11 @@ class GameLogic:
       def decorator(func):
          def inner(self, player, targets):
             from botc import Flags, ActionTypes
-            # Slayer's unique "slay" ability. Everyone may use it publicy once.
+            # Slayer's unique "slay" ability. Everyone may use it publicly once.
             if ability_type == ActionTypes.slay:
                if not player.role.ego_self.inventory.has_item_in_inventory(Flags.slayer_unique_attempt):
                   raise UniqueAbilityError(unique_ability_used.format(player.user.mention, x_emoji))
-            # Future roles that have a unique ability must go into elif blocks, or else the uncaught 
+            # Future roles that have a unique ability must go into elif blocks, or else the uncaught
             # ones will automatically trigger an assertion error.
             else:
                assert 0, "Unique ability check went wrong."
@@ -342,7 +348,7 @@ class GameLogic:
             raise ChangesNotAllowed(changes_not_allowed.format(player.user.mention, x_emoji))
          return func(self, player, targets)
       return inner
-   
+
    @staticmethod
    def changes_not_allowed_dawn(func):
       """Decorator for abilities that cannot modify targets after inputting them"""
@@ -352,7 +358,7 @@ class GameLogic:
             raise ChangesNotAllowed(changes_not_allowed.format(player.user.mention, x_emoji))
          return func(self, player, targets)
       return inner
-   
+
    @staticmethod
    def requires_one_target(func):
       """Decorator for abilities that require one target"""
@@ -361,7 +367,7 @@ class GameLogic:
             raise MustBeOneTarget(requires_one_target_str.format(player.user.mention, x_emoji))
          return func(self, player, targets)
       return inner
-   
+
    @staticmethod
    def requires_two_targets(func):
       """Decorator for abilities that require two targets"""
@@ -370,7 +376,7 @@ class GameLogic:
             raise MustBeTwoTargets(requires_two_targets_str.format(player.user.mention, x_emoji))
          return func(self, player, targets)
       return inner
-   
+
    @staticmethod
    def requires_different_targets(func):
       """Decorator for abilities that do not allow repeat players in the targets"""
@@ -378,6 +384,16 @@ class GameLogic:
          id_list = [target.user.id for target in targets]
          if len(id_list) != len(set(id_list)):
             raise NoRepeatTargets(requires_different_targets_str.format(player.user.mention, x_emoji))
+         return func(self, player, targets)
+      return inner
+
+   @staticmethod
+   def requires_more_than_three_alive_players(func):
+      """Decorator for abilities that require more than three players to be alive"""
+      def inner(self, player, targets):
+         import globvars
+         if globvars.master_state.game.nb_alive_players == 3:
+            raise MustBeMoreThanThreeAlivePlayers(requires_more_than_three_alive_players_str.format(player.user.mention, x_emoji))
          return func(self, player, targets)
       return inner
 
@@ -421,16 +437,22 @@ class RoleConverter(commands.Converter):
 
     async def convert(self, ctx, argument):
         """
-        Find a role name amongst the botc pack. 
+        Find a role name amongst the botc pack.
         Return the role class if it is found, else return None
 
         The game_packs variable is coded in the following way:
 
-        {'botc': {'game_obj': <botc.Game.Game object at 0x1187bffd0>, 'gamemodes': {'trouble-brewing': 
-        [Baron Obj, Butler Obj, Chef Obj, Drunk Obj, Empath Obj, Fortune Teller Obj, Imp Obj, 
-        Investigator Obj, Librarian Obj, Mayor Obj, Monk Obj, Poisoner Obj, Ravenkeeper Obj, 
-        Recluse Obj, Saint Obj, Scarlet Woman Obj, Slayer Obj, Soldier Obj, Undertaker Obj, 
-        Virgin Obj, Washerwoman Obj]}}}
+        {'botc': {'game_obj': Blood on the Clocktower, 'formatter': <botc.setups.BOTCFormatter object at 0x1187bffd0>,
+        'gamemodes': {'trouble-brewing': [Baron Obj, Butler Obj, Chef Obj, Drunk Obj, Empath Obj, Fortune Teller Obj,
+        Imp Obj, Investigator Obj, Librarian Obj, Mayor Obj, Monk Obj, Poisoner Obj, Ravenkeeper Obj, Recluse Obj,
+        Saint Obj, Scarlet Woman Obj, Slayer Obj, Soldier Obj, Spy Obj, Undertaker Obj, Virgin Obj, Washerwoman Obj],
+        'bad-moon-rising': [Assassin Obj, Chambermaid Obj, Courtier Obj, Devil's Advocate Obj, Exorcist Obj, Fool Obj,
+        Gambler Obj, Godfather Obj, Goon Obj, Gossip Obj, Grandmother Obj, Innkeeper Obj, Lunatic Obj, Mastermind Obj,
+        Minstrel Obj, Moonchild Obj, Pacifist Obj, Po Obj, Professor Obj, Pukka Obj, Sailor Obj, Shabaloth Obj,
+        Tea Lady Obj, Tinker Obj, Zombuul Obj], 'sects-&-violets': [Artist Obj, Barber Obj, Cerenovus Obj,
+        Clockmaker Obj, Dreamer Obj, Evil Twin Obj, Fang Gu Obj, Flowergirl Obj, Juggler Obj, Klutz Obj,
+        Mathematician Obj, Mutant Obj, No Dashii Obj, Oracle Obj, Philosopher Obj, Pit-Hag Obj, Sage Obj, Savant Obj,
+        Seamstress Obj, Snake Charmer Obj, Sweetheart Obj, Town Crier Obj, Vigormortis Obj, Vortox Obj, Witch Obj]}}}
         """
         import globvars
         editions = globvars.master_state.game_packs["botc"]["gamemodes"]
@@ -476,4 +498,4 @@ class LorePicker:
          weights = lore[category]["weights"]
       )
       return chosen[0]
-   
+
