@@ -22,6 +22,8 @@ class Savant(Townsfolk, SectsAndViolets, Character):
         self._examp_string = character_text["examples"]
         self._instr_string = character_text["instruction"]
         self._lore_string = character_text["lore"]
+        self._brief_string = character_text["brief"]
+        self._action = character_text["action"]
 
         self._art_link = "https://bloodontheclocktower.com/wiki/images/4/4c/Savant_Token.png"
         self._art_link_cropped = "https://imgur.com/nh3DHiM.png"

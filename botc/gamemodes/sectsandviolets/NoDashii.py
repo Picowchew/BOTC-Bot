@@ -22,6 +22,8 @@ class NoDashii(Demon, SectsAndViolets, Character):
         self._examp_string = character_text["examples"]
         self._instr_string = character_text["instruction"]
         self._lore_string = character_text["lore"]
+        self._brief_string = character_text["brief"]
+        self._action = character_text["action"]
 
         self._art_link = "https://bloodontheclocktower.com/wiki/images/f/f4/No_Dashii_Token.png"
         self._art_link_cropped = "https://imgur.com/Uzme6tJ.png"
